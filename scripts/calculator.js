@@ -387,6 +387,19 @@
       if (e.key === 'Enter') showResults();
     });
 
+    // Dynamic resize for amount input
+    function resizeAmountInput() {
+      const value = elements.amountInput.value || elements.amountInput.placeholder;
+      const charCount = value.length;
+      // Base width + extra per character beyond 2
+      const baseWidth = 5.5; // rem
+      const extraWidth = Math.max(0, charCount - 2) * 0.9; // rem per extra char
+      elements.amountInput.style.width = (baseWidth + extraWidth) + 'rem';
+    }
+
+    elements.amountInput.addEventListener('input', resizeAmountInput);
+    resizeAmountInput(); // Initial size
+
     // Back button
     elements.btnBack.addEventListener('click', showSetup);
 

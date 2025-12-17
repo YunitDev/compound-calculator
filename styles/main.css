@@ -346,6 +346,10 @@ body {
 .input-wrapper input {
   padding-left: 1.875rem !important;
   text-align: left !important;
+  width: auto !important;
+  min-width: 5.5rem;
+  max-width: 8rem;
+  transition: width 0.2s var(--ease-smooth), border-color 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth);
 }
 
 .setup-field input {
