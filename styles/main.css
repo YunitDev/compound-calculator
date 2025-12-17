@@ -42,8 +42,8 @@
 
 html, body {
   height: 100%;
-  overflow: hidden;
   touch-action: manipulation;
+  overscroll-behavior-y: auto;
 }
 
 html {
@@ -697,17 +697,18 @@ body {
 }
 
 .timeframe-btn--active {
-  background: linear-gradient(135deg, var(--glow-primary) 0%, #00cc6a 100%);
-  border-color: transparent;
-  box-shadow: 0 4px 20px rgba(var(--glow-primary-rgb), 0.4);
+  background: rgba(var(--glow-primary-rgb), 0.15);
+  border-color: var(--glow-primary);
+  box-shadow: 0 4px 20px rgba(var(--glow-primary-rgb), 0.4),
+              inset 0 0 20px rgba(var(--glow-primary-rgb), 0.1);
 }
 
 .timeframe-btn--active .timeframe-label {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--glow-primary);
 }
 
 .timeframe-btn--active .timeframe-age {
-  color: var(--bg-void);
+  color: var(--glow-primary);
 }
 
 /* Scenario Toggle - Subtle */
@@ -947,12 +948,12 @@ body {
 }
 
 .btn-next--final {
-  background: linear-gradient(135deg, var(--glow-gold) 0%, #ffaa00 100%);
-  box-shadow: 0 4px 20px rgba(var(--glow-gold-rgb), 0.3);
+  background: linear-gradient(135deg, var(--glow-primary) 0%, #00cc6a 100%);
+  box-shadow: 0 4px 20px rgba(var(--glow-primary-rgb), 0.3);
 }
 
 .btn-next--final:hover {
-  box-shadow: 0 6px 25px rgba(var(--glow-gold-rgb), 0.4);
+  box-shadow: 0 6px 25px rgba(var(--glow-primary-rgb), 0.4);
 }
 
 /* Legacy btn-submit for backwards compatibility */
