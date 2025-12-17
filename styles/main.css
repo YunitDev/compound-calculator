@@ -363,10 +363,7 @@ body {
   -moz-appearance: textfield;
   -webkit-appearance: none;
   appearance: none;
-  backdrop-filter: blur(10px);
   caret-color: var(--glow-primary);
-  position: relative;
-  z-index: 1;
 }
 
 .setup-field input::-webkit-outer-spin-button,
