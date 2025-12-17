@@ -336,17 +336,17 @@ body {
 .input-wrapper::before {
   content: '$';
   position: absolute;
-  left: 0.875rem;
+  left: 0.75rem;
   font-family: var(--font-mono);
-  font-size: 1.375rem;
-  font-weight: 500;
-  color: var(--text-dim);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-bright);
   pointer-events: none;
   z-index: 1;
 }
 
 .input-wrapper input {
-  padding-left: 1.75rem !important;
+  padding-left: 1.875rem !important;
   text-align: left !important;
 }
 

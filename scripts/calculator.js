@@ -413,6 +413,25 @@
       if (e.key === 'Enter') { e.preventDefault(); validateAndNextStep(3); }
     });
 
+    // Phone number auto-formatting
+    document.getElementById('phone').addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+      if (value.length > 10) value = value.slice(0, 10);
+
+      let formatted = '';
+      if (value.length > 0) {
+        formatted = '(' + value.slice(0, 3);
+      }
+      if (value.length >= 3) {
+        formatted += ') ' + value.slice(3, 6);
+      }
+      if (value.length >= 6) {
+        formatted += '-' + value.slice(6, 10);
+      }
+
+      e.target.value = formatted;
+    });
+
     // Path option reveal toggles
     document.querySelectorAll('.path-option').forEach(option => {
       option.addEventListener('click', (e) => {
