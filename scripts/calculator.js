@@ -40,7 +40,6 @@
     btnBack: document.getElementById('btn-back'),
     btnShowHow: document.getElementById('btn-show-how'),
     btnBackForm: document.getElementById('btn-back-form'),
-    captureForm: document.getElementById('capture-form'),
     displayAge: document.getElementById('display-age'),
     displayAmount: document.getElementById('display-amount'),
     amountSlider: document.getElementById('amount-slider'),
@@ -246,15 +245,99 @@
     elements.ageInput.focus();
   }
 
+  // Multi-step form state
+  let currentFormStep = 1;
+
   function showForm() {
     elements.pageResults.classList.remove('active');
     elements.pageForm.classList.add('active');
-    document.getElementById('first-name').focus();
+    currentFormStep = 1;
+    updateFormStep(1);
+    setTimeout(() => document.getElementById('first-name').focus(), 300);
   }
 
   function hideForm() {
     elements.pageForm.classList.remove('active');
     elements.pageResults.classList.add('active');
+    // Reset form steps
+    currentFormStep = 1;
+    updateFormStep(1);
+  }
+
+  function updateFormStep(step) {
+    // Update step indicator
+    document.getElementById('current-step').textContent = step;
+
+    // Update dots
+    document.querySelectorAll('.step-dot').forEach((dot, index) => {
+      dot.classList.remove('step-dot--active', 'step-dot--completed');
+      if (index + 1 === step) {
+        dot.classList.add('step-dot--active');
+      } else if (index + 1 < step) {
+        dot.classList.add('step-dot--completed');
+      }
+    });
+
+    // Show/hide steps
+    document.querySelectorAll('.form-step').forEach((stepEl, index) => {
+      stepEl.classList.remove('form-step--active');
+      if (index + 1 === step) {
+        stepEl.classList.add('form-step--active');
+      }
+    });
+  }
+
+  function goToStep(step) {
+    currentFormStep = step;
+    updateFormStep(step);
+
+    // Focus the input in the new step
+    const stepEl = document.getElementById(`step-${step}`);
+    const input = stepEl.querySelector('input');
+    if (input) {
+      setTimeout(() => input.focus(), 300);
+    }
+  }
+
+  function validateAndNextStep(currentStep) {
+    let input, value;
+
+    if (currentStep === 1) {
+      input = document.getElementById('first-name');
+      value = input.value.trim();
+      if (!value) {
+        input.classList.add('input-error');
+        setTimeout(() => input.classList.remove('input-error'), 500);
+        input.focus();
+        return;
+      }
+      goToStep(2);
+    } else if (currentStep === 2) {
+      input = document.getElementById('last-name');
+      value = input.value.trim();
+      if (!value) {
+        input.classList.add('input-error');
+        setTimeout(() => input.classList.remove('input-error'), 500);
+        input.focus();
+        return;
+      }
+      goToStep(3);
+    } else if (currentStep === 3) {
+      input = document.getElementById('phone');
+      value = input.value.trim();
+      if (!value) {
+        input.classList.add('input-error');
+        setTimeout(() => input.classList.remove('input-error'), 500);
+        input.focus();
+        return;
+      }
+      // All steps complete - store data and show comparison
+      const firstName = document.getElementById('first-name').value.trim();
+      const lastName = document.getElementById('last-name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      state.userData = { firstName, lastName, phone };
+      showComparison(firstName);
+    }
   }
 
   function showComparison(firstName) {
@@ -273,22 +356,6 @@
     // Show comparison page
     elements.pageForm.classList.remove('active');
     elements.pageComparison.classList.add('active');
-  }
-
-  function handleFormSubmit(e) {
-    e.preventDefault();
-
-    const firstName = document.getElementById('first-name').value.trim();
-    const lastName = document.getElementById('last-name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-
-    if (firstName && lastName && phone) {
-      // Store user data (could send to server here)
-      state.userData = { firstName, lastName, phone };
-
-      // Show comparison with personalized greeting
-      showComparison(firstName);
-    }
   }
 
   // ==========================================================================
@@ -330,15 +397,28 @@
     // Back from form → Results
     elements.btnBackForm.addEventListener('click', hideForm);
 
-    // Form submission
-    elements.captureForm.addEventListener('submit', handleFormSubmit);
+    // Multi-step form buttons
+    document.getElementById('btn-step-1').addEventListener('click', () => validateAndNextStep(1));
+    document.getElementById('btn-step-2').addEventListener('click', () => validateAndNextStep(2));
+    document.getElementById('btn-step-3').addEventListener('click', () => validateAndNextStep(3));
 
-    // Door reveal toggles
-    document.querySelectorAll('.door').forEach(door => {
-      door.addEventListener('click', (e) => {
+    // Enter key advances to next step
+    document.getElementById('first-name').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); validateAndNextStep(1); }
+    });
+    document.getElementById('last-name').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); validateAndNextStep(2); }
+    });
+    document.getElementById('phone').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); validateAndNextStep(3); }
+    });
+
+    // Path option reveal toggles
+    document.querySelectorAll('.path-option').forEach(option => {
+      option.addEventListener('click', (e) => {
         // Don't collapse when clicking the CTA link
-        if (e.target.closest('.door-cta')) return;
-        door.classList.toggle('expanded');
+        if (e.target.closest('.path-option-cta')) return;
+        option.classList.toggle('expanded');
       });
     });
   }
