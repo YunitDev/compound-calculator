@@ -45,21 +45,22 @@
           </div>
 
           <div class="setup-field">
-            <label class="setup-label" for="amount-input">and I can invest</label>
+            <label class="setup-label" for="amount-input">I can invest</label>
             <div class="input-wrapper">
-              <input type="number" id="amount-input" min="25" max="2000" step="25" placeholder="150" inputmode="numeric">
+              <input type="number" id="amount-input" min="10" max="2000" step="5" placeholder="25" inputmode="numeric">
             </div>
             <span class="setup-suffix">per week</span>
+            <span class="input-error-text" id="amount-error">Minimum $10/week</span>
           </div>
         </div>
 
         <button class="btn-go" id="btn-go" type="button">
-          Show Me
+          👀 Show Me
         </button>
       </section>
 
       <footer class="footer-setup" id="footer-setup">
-        <p class="footer-tag">Time in the market beats timing the market.</p>
+        <p class="footer-tag">How smart people play this game.</p>
       </footer>
     </div>
   </main>
@@ -84,12 +85,12 @@
       <div class="amount-control">
         <div class="amount-display">
           <span class="amount-prefix">$</span>
-          <span class="amount-value" id="display-amount">150</span>
+          <span class="amount-value" id="display-amount">25</span>
           <span class="amount-suffix">/ week</span>
         </div>
-        <input type="range" id="amount-slider" min="25" max="2000" step="25" value="150" class="amount-slider">
+        <input type="range" id="amount-slider" min="10" max="2000" step="5" value="25" class="amount-slider">
         <div class="amount-labels">
-          <span>$25</span>
+          <span>$10</span>
           <span>$2,000</span>
         </div>
       </div>

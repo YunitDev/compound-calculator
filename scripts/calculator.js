@@ -10,9 +10,9 @@
     targetAge: 65,
     minAge: 16,
     maxAge: 64,
-    minAmount: 25,
+    minAmount: 10,
     maxAmount: 2000,
-    amountStep: 25,
+    amountStep: 5,
     animationDuration: 400,
     returnRates: {
       low: 0.10,
@@ -23,7 +23,7 @@
 
   const state = {
     age: 25,
-    weeklyAmount: 150,
+    weeklyAmount: 25,
     scenario: 'normal',
     selectedTimeframe: 'long',
     timeframes: { short: 30, medium: 45, long: 65 }
@@ -205,6 +205,20 @@
       return;
     }
 
+    // Check minimum amount
+    const errorText = document.getElementById('amount-error');
+    if (amount < CONFIG.minAmount) {
+      elements.amountInput.focus();
+      elements.amountInput.classList.add('input-error');
+      errorText.classList.add('visible');
+      setTimeout(() => {
+        elements.amountInput.classList.remove('input-error');
+        errorText.classList.remove('visible');
+      }, 2000);
+      return;
+    }
+    errorText.classList.remove('visible');
+
     // Clamp to valid ranges
     if (age < CONFIG.minAge) age = CONFIG.minAge;
     if (age > CONFIG.maxAge) age = CONFIG.maxAge;
@@ -345,7 +359,7 @@
     const targetAge = state.timeframes[state.selectedTimeframe];
     const years = targetAge - state.age;
     const value = calculateProjection(state.weeklyAmount, years, state.scenario);
-    const returnRate = CONFIG.returnRates[state.scenario] * 100;
+    const returnRate = Math.round(CONFIG.returnRates[state.scenario] * 100);
 
     // Update comparison page with personalized data
     elements.userFirstName.textContent = firstName;

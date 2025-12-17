@@ -364,6 +364,7 @@ body {
   transition: all 0.3s var(--ease-smooth);
   -moz-appearance: textfield;
   backdrop-filter: blur(10px);
+  caret-color: var(--glow-primary);
 }
 
 .setup-field input::-webkit-outer-spin-button,
@@ -400,7 +401,20 @@ body {
 
 .setup-suffix {
   font-size: 1rem;
-  color: var(--text-dim);
+  color: var(--text-soft);
+}
+
+.input-error-text {
+  display: none;
+  width: 100%;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #ff6b6b;
+  margin-top: 0.5rem;
+}
+
+.input-error-text.visible {
+  display: block;
 }
 
 .btn-go {
