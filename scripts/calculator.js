@@ -354,20 +354,31 @@
   }
 
   function showComparison(firstName) {
-    // Always calculate for age 65 (retirement)
-    const targetAge = CONFIG.targetAge; // Always 65
-    const years = targetAge - state.age;
-    const value = calculateProjection(state.weeklyAmount, years, state.scenario);
-    const returnRate = Math.round(CONFIG.returnRates[state.scenario] * 100);
+    try {
+      // Always calculate for age 65 (retirement)
+      const targetAge = CONFIG.targetAge; // Always 65
+      const years = targetAge - state.age;
+      const value = calculateProjection(state.weeklyAmount, years, state.scenario);
+      const returnRate = Math.round(CONFIG.returnRates[state.scenario] * 100);
 
-    // Update comparison page with personalized data
-    elements.userFirstName.textContent = firstName;
-    elements.goalAmount.textContent = formatCurrency(value);
-    if (elements.hardReturn) elements.hardReturn.textContent = returnRate + '%';
+      // Update comparison page with personalized data
+      const userFirstNameEl = document.getElementById('user-first-name');
+      const goalAmountEl = document.getElementById('goal-amount');
+      const hardReturnEl = document.getElementById('hard-return');
 
-    // Show comparison page
-    elements.pageForm.classList.remove('active');
-    elements.pageComparison.classList.add('active');
+      if (userFirstNameEl) userFirstNameEl.textContent = firstName;
+      if (goalAmountEl) goalAmountEl.textContent = formatCurrency(value);
+      if (hardReturnEl) hardReturnEl.textContent = returnRate + '%';
+
+      // Show comparison page
+      const pageForm = document.getElementById('page-form');
+      const pageComparison = document.getElementById('page-comparison');
+
+      if (pageForm) pageForm.classList.remove('active');
+      if (pageComparison) pageComparison.classList.add('active');
+    } catch (e) {
+      console.error('Error in showComparison:', e);
+    }
   }
 
   // ==========================================================================
